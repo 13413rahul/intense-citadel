@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="1 hour" debug="true">
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date{ISO8601} - [%level] - [%thread] - [requestId: %X{requestId}] - %logger{36} - %message%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="mtms" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logger/mtms.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>./logger/mtms.%d{yyyy-MM-dd}.gz</FileNamePattern>
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date{ISO8601} - [%level] - [%thread] - [requestId: %X{requestId}] - %logger{36} - %message%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logger/error.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>./logger/error.%d{yyyy-MM-dd}.gz</FileNamePattern>
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date{ISO8601} - [%level] - [%thread] - [requestId: %X{requestId}] - %logger{36} - %message%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <logger name="com.rk.mtms" level="INFO" />
+
+    <root level="INFO">
+         <appender-ref ref="STDOUT" />
+        <appender-ref ref="mtms" />
+        <appender-ref ref="error" />
+    </root>
+
+</configuration>
